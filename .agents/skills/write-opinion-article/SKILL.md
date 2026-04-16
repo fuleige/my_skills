@@ -1,6 +1,6 @@
 ---
 name: write-opinion-article
-description: Draft and revise publishable Chinese opinion, commentary, and feature-style articles with a clear thesis, concrete substance, narrative flow, and human-sounding judgment. Use when Codex needs to write a complete Chinese article rather than notes, especially for requests like "写一篇文章", "写得像人类、有观点", "内容要扎实", "润色成可发布稿", Chinese columns, long-form commentary, personal essays, or article rewrites that must avoid bullet-list, report, template-like output, or empty knowledge-sharing prose.
+description: Draft and revise publishable Chinese opinion, commentary, column, and observation-style articles with a clear thesis, concrete substance, narrative flow, and human-sounding judgment. Use when Codex needs to write a complete Chinese article with explicit authorial judgment rather than notes, summaries, tutorials, documentation, or plain knowledge-sharing. Typical triggers include "写一篇评论", "写成专栏", "写得像人类、有观点", "写成观察文章", "润色成可发布评论稿", or article rewrites that must avoid bullet-list, report, and template-like output. Do not use just because the user says "写一篇文章" unless the request clearly calls for commentary, column voice, or personal judgment.
 ---
 
 # Write Opinion Article
@@ -14,6 +14,10 @@ description: Draft and revise publishable Chinese opinion, commentary, and featu
 默认输出中文正文。除非用户明确要求其他语言，否则标题、导语、正文、结尾和备选版本都必须写成自然中文，而不是英式句法的中文翻译腔。
 
 默认把文章写成“有判断，也有材料”的东西。不要让文章只剩观点姿态和知识点说明；要让读者看见具体场景、真实代价、细节抓手和论述落点。
+
+这个 skill 只服务于评论、专栏、观察、随笔式文章，不是通用写作 skill。用户如果要的是朴实知识分享、教程、方法总结、概念科普、文档说明、课程稿、信息整理或“少观点、多知识点”的文章，不应默认使用这个 skill，除非用户明确要求保留强烈判断和作者声音。更偏专业知识分享的任务，应改用 `write-knowledge-article`。
+
+如果文章是基于一篇文档、报告、手册或教程来写，不要按原文结构从头讲到尾。评论文更适合从材料里挑出 2 到 4 个最能支撑判断的事实，再围绕这些事实建立作者的解释，而不是追求覆盖面。
 
 ## Workflow
 
@@ -29,6 +33,8 @@ description: Draft and revise publishable Chinese opinion, commentary, and featu
 
 如果信息不完整，但仍可继续，就做最小假设并直接推进。只在事实边界不清、容易误写结论时才回问用户。
 
+先做一次触发自检：如果用户主要想要的是“讲清楚”“信息密度高”“少空话”“更像知识分享”“更像教程/总结”，应停下来，优先改用 `write-knowledge-article`，而不是把任务硬拉成观点文章。
+
 ### 2. 先找到“要表达的判断”，再开始写
 
 先用一句话写出文章核心判断。这个判断必须是可争论、可辩护、可展开的，不要写成空泛正确话。
@@ -40,6 +46,8 @@ description: Draft and revise publishable Chinese opinion, commentary, and featu
 - 作者的观察站位是什么，凭什么有资格这样判断
 
 不要写成“有利有弊”“值得关注”“未来可期”这类没有方向的平衡句。没有立场的文章，最后只会像综述。
+
+如果迟迟提炼不出一个值得成立的判断，往往说明这个任务不是观点文，而是知识分享文。此时不要硬写，应切换到 `write-knowledge-article` 这种更适合信息解释与方法传达的写法。
 
 ### 3. 先补“材料层”，不要只靠观点硬撑
 
@@ -54,6 +62,8 @@ description: Draft and revise publishable Chinese opinion, commentary, and featu
 - 一个能把抽象问题落地的小例子或典型现象
 
 判断一旦离开这些材料，就容易滑成“知识分享”或“正确废话”。如果手里材料太少，不要用大而空的背景介绍把篇幅填满；要缩小论点，换成更窄但更真的写法。
+
+如果底稿本身信息非常结构化，例如官方文档、规则说明、产品指南，不要把所有结构都搬进文章。先筛出最能说明作者判断的那几条，例如一个优先级规则、一个默认限制、一个验证方法、一个典型例子；然后围绕它们展开评论。
 
 默认让每个核心判断至少回答下面问题里的两个：
 
@@ -94,6 +104,11 @@ description: Draft and revise publishable Chinese opinion, commentary, and featu
 3. 常见说法 -> 反驳 -> 更贴近现实的解释
 4. 作者观察 -> 推开到更大问题 -> 回到普通人的感受
 
+如果题材来自文档或手册，还可以优先使用：
+
+5. 一个关键规则 -> 它为什么重要 -> 它暴露了怎样的协作逻辑
+6. 一条容易忽略的细节 -> 现实里的后果 -> 作者判断
+
 ### 5. 起草时保持“人写的声音”
 
 写首段时，优先从下面四种入口里选一种：
@@ -125,6 +140,8 @@ description: Draft and revise publishable Chinese opinion, commentary, and featu
 - 过度工整到失去说话感
 
 如果用户要求第一人称，就大胆使用“我”；如果用户没有要求，也可以在确有作者观察时少量使用第一人称，但不要滥用自我表演。
+
+如果用户明确要求“朴实”“克制”“像知识分享者”，这里的“人写的声音”应理解为自然、可信、有分寸，而不是更锋利、更有姿态。
 
 ### 6. 改写成可发布版本
 
@@ -161,7 +178,7 @@ description: Draft and revise publishable Chinese opinion, commentary, and featu
 - 不要用列点代替论述，除非用户明确要清单文。
 - 不要机械追求“客观中立”；观点文章必须有自己的判断。
 - 不要编造事实、引用、数据或经历。
-- 不要把文章主体写成知识梳理、概念介绍或方法总结，除非用户明确要知识分享文。
+- 不要把文章主体写成知识梳理、概念介绍或方法总结；这类任务默认不属于本 skill。
 - 不要让核心判断悬空；重要观点后面要尽量跟上场景、代价、细节、对比或角色视角。
 - 不要在材料不够时拿宏大背景、套话分析和抽象名词硬凑篇幅；宁可缩小论点。
 - 不要为了适配想象中的平台风格，把文章写成统一模板或流量文腔。
@@ -169,6 +186,8 @@ description: Draft and revise publishable Chinese opinion, commentary, and featu
 - 不要为了显得深刻而堆抽象大词。
 - 不要把所有段落写成同样长度、同样句式、同样语气。
 - 不要只追求“观点锋利”；还要保留人的温度、经验感和对读者的正常说话方式。
+- 不要把文章写成原始文档的浓缩复述；覆盖面不是这个 skill 的首要目标。
+- 不要把所有命令、配置项、默认值、排错路径都塞进同一篇评论文；只保留最能支撑判断的那几项。
 
 ## Revision Triggers
 
@@ -181,6 +200,8 @@ description: Draft and revise publishable Chinese opinion, commentary, and featu
 - 每段都对，但合起来没有作者人格
 - 文字过于安全，像谁都可以说的正确话
 - 开头抓不住人，结尾没有落点
+
+如果重写两次后仍然明显更适合知识分享文、教程文、经验总结或信息整理，应视为触发错 skill，而不是继续强修。
 
 ## References
 

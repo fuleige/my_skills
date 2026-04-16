@@ -1,0 +1,4 @@
+interface:
+  display_name: "知识分享写作"
+  short_description: "写朴实、专业、信息密度高、可发布的知识分享文章。"
+  default_prompt: "使用 $write-knowledge-article 写一篇可发布的中文知识分享文章，要求朴实、专业、信息密度高、少空话。"
