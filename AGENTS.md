@@ -1,16 +1,14 @@
-# Producer Project Constraints
+# Codex Global Constraints
 
-本文件为 `/root/codes/producer` 的项目级约束，只作用于当前项目。
+本文件为 Codex 的全局约束，默认作用于当前机器上的全部会话与项目。
 
-## Python 虚拟环境
+## 操作约束
 
-- 本项目的 Python 相关命令默认使用项目级虚拟环境 `/root/codes/producer/.venv`。
-- 执行 Python、pip、pytest 或其他 Python 工具时，优先直接调用 `.venv/bin/python`、`.venv/bin/pip`、`.venv/bin/pytest`、`.venv/bin/<tool>`，不要默认使用系统解释器，也不要依赖 `source` 激活后的隐式路径。
-- 若本项目缺少 Python 依赖，优先安装到 `.venv` 中，不要写入系统级 Python 环境。
-- 当需要在回复、脚本或自动化命令中展示 Python 用法时，默认展示项目内虚拟环境的可执行路径。
-- 若 `.venv` 缺失或损坏，可在项目根目录重新执行 `python3 -m venv .venv` 创建；该操作仍需遵守上层关于 Python 命令默认走沙箱外执行路径的全局约束。
+- 未经用户明确允许，禁止主动执行任何提交、推送或修改远端状态的 Git 操作，包括但不限于 `git commit`、`git push`、`git tag`、创建或更新 release，以及其他等价的远端写操作。
+- 默认工作方式应为：完成修改、验证结果、汇报变更；只有在用户明确授权后，才允许继续执行提交、推送或其他会改变 Git 历史或远端状态的操作。
 
-## 约束优先级
+## Python 执行约束
 
-- 本文件补充项目级规则，不覆盖更高优先级的系统、开发者或全局约束。
-- 若项目级规则与上层约束冲突，以上层约束为准。
+- 在本环境中，所有 Python 相关命令默认走“沙箱外”执行路径，包括但不限于 `python`、`python3`、`pytest`、`torchrun`、训练脚本、评估脚本和依赖 Python 解释器的项目脚本。
+- 原因是当前沙箱内无法稳定暴露 GPU 设备与 CUDA 相关信息，容易导致 `torch.cuda.is_available()`、硬件枚举、训练环境检查和其他 GPU 相关判断出现误判。
+- 如果任务已经明确确认与 GPU、CUDA、驱动、硬件枚举完全无关，且用户特别要求在沙箱内执行，才可以例外；否则应继续遵守“Python 命令默认沙箱外执行”的约束。

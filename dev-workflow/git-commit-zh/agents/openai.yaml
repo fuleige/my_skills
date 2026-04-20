@@ -1,0 +1,7 @@
+interface:
+  display_name: "Git Commit 中文总结"
+  short_description: "为 git 提交生成中文概述、关键修改要点与结构化提交说明"
+  default_prompt: "使用 $git-commit-zh 检查当前变更，先写一句中文概述，再列出关键修改要点，并将其作为 git commit 信息。"
+
+policy:
+  allow_implicit_invocation: true
